@@ -24,8 +24,19 @@ This is part of the challenge of programming ROS, but I suspect it's particular 
 
 ##person_follower
 #### description
+the robot is programmed to follow the nearest object (person). I chose to use the scan topic to analyze objects close to the robot and the cmd_vel topic to publish Twist information to the robot so that it can reposition itself
+to face the object and move towards the object.
 #### code explanation
+my code is divided into three parts: initialization, scanning environment and updating Twist() function, and a run function. The initialization function sets up the the ROS node, scan receiver, and cmd_vel publisher. The process_data function takes in the scan data, loops through data.ranges to find whether there is an object around the robot that it can follow, picks the object that is closest to the robot, and checks the angle that object lies on. This way, if a person is moving around, the robot will continuously try to minimize the distance between itself and the person by repositioning itself to face the person and move towards the person. Then, once we have the angle information, we update the Twist settings and publish that information to the robot. If we are too close to the object we're following the robot will only reposition itself to face the object. 
 #### gif
 #### challenges
+The biggest challenge is figuring out how to reposition the robot so that it faces the object it's following at all times.
+A big hint from David was to not think of the angles as 360, but instead think of it as left 180 and right 180. This way, the robot can follow a person more accurately. 
 #### future work
+If I had more time, I would test my code on a turtlebot more thoroughly.
 #### takeaways 
+	- the indexes of the range array are the angles, and the values are the distances from the object the 
+	robot detects. Knowing how to understand the data.ranges array will help me work on future projects that
+	require analyzing environment
+	- I can have print statements inside conditional statements to test that I'm entering the correct conditionals. 
+

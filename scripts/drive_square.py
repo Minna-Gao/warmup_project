@@ -26,8 +26,6 @@ class Drive_Square():
                 drive_cmd = Twist()
                 drive_cmd.linear.x = 0.5
                 drive_cmd.angular.z = 0
-                # allow the publisher enough time to set up before publishing first msg
-                rospy.sleep(1)
                 # publish the message
                 self.publisher.publish(drive_cmd)
                 # allow this message to be executed for 3 seconds
