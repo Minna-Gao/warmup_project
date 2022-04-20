@@ -59,7 +59,8 @@ class Person_Follower(object):
         # if min_value hasn't been updated then the robot detects nothing to be followed
         # if the min_value is less than 0.5 than the robot simply needs to face the object but not move
         # any closer
-        if min_value <= 0.5 or min_value == float('inf'):
+        if min_value <= 0.5 or min_value == float('inf')
+        if 
             # setup the Twist message 
             follow_cmd = Twist()
             follow_cmd.linear.x = 0
