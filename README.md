@@ -31,9 +31,10 @@ my code is divided into three parts: initialization, scanning environment and up
 #### gif
 #### challenges
 The biggest challenge is figuring out how to reposition the robot so that it faces the object it's following at all times.
-A big hint from David was to not think of the angles as 360, but instead think of it as left 180 and right 180. This way, the robot can follow a person more accurately. 
+A big hint from David was to not think of the angles as 360, but instead think of it as left 180 and right 180. This way, the robot can follow a person more accurately. Executing this was also difficult as initially the robot was only turning to one-side; I fixed this by completing my if-else statement in setting the index. 
+The second biggest challenge is, again, trying to connect to turtlebot and running it correctly. 
 #### future work
-If I had more time, I would test my code on a turtlebot more thoroughly.
+If I had more time, I would test my code on a turtlebot more thoroughly. So far it seems the turtlebot cannot keep up if I move too fast. The robot also seems to sometimes get confused about which object to follow.
 #### takeaways 
 	- the indexes of the range array are the angles, and the values are the distances from the object the 
 	robot detects. Knowing how to understand the data.ranges array will help me work on future projects that

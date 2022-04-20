@@ -32,59 +32,63 @@ class Person_Follower(object):
         # from around the robot.
         # set angular velocity based on that information, and publish
         # to cmd_vel
-        while not rospy.is_shutdown():
+        
         # set default minimum distance from robot
-            min_value = float('inf')
+        min_value = float('inf')
         # min_index documents the angle that the object closest 
         # to the robot lies on. the default value is 0
-            min_index = 0
+        min_index = 0
         # loops through ranges to find the angle that the object that is
         # closest to the robot lies on
-            for angle, dist in enumerate(data.ranges):
+        for angle, dist in enumerate(data.ranges):
             # check that it isn't 0 (which just means unreadable input) and is smaller than
             # the current minimum distance value
-                if dist != 0 and dist < min_value:
+            if dist != 0 and dist < min_value:
                 # if the angle is greater than 180, subtract 360 from it to make it negative
                 # such that it's a left turn
-                    if angle >= 180:
-                        min_index = angle - 360
+                if angle >= 180:
+                    min_index = angle - 360
+                else: 
+                    min_index = angle
                 # update minimum distance value
-                    min_value = dist
+                min_value = dist
         
         # now the angle is the amount of error degrees that needs to be corrected by turning.
         # by multiplying by 0.01, this ensures that the greater the error degree, the faster the
         # robot will turn
-            error = min_index * 0.01
+        error = min_index * 0.01
 
         # if min_value hasn't been updated then the robot detects nothing to be followed
         # if the min_value is less than 0.5 than the robot simply needs to face the object but not move
         # any closer
-            if min_value == float('inf'):
-                print("nothing to follow")
-                follow_cmd = Twist()
-                follow_cmd.linear.x = 0
-                follow_cmd.angular.z = 0
-                self.twist_pub.publish(follow_cmd)
-            if min_value <= 0.5:
-                print("object too close")
+        if min_value == float('inf'):
+            print("nothing to follow")
+            follow_cmd = Twist()
+            follow_cmd.linear.x = 0
+            follow_cmd.angular.z = 0
+            self.twist_pub.publish(follow_cmd)
+        if min_value <= 0.5:
+            print("object too close")
             # setup the Twist message 
-                follow_cmd = Twist()
-                follow_cmd.linear.x = 0
+            follow_cmd = Twist()
+            follow_cmd.linear.x = 0
             # have the robot turn to face the object
-                follow_cmd.angular.z = error
+            follow_cmd.angular.z = error
             # publish the message
-                self.twist_pub.publish(follow_cmd)
-            else:
-                print("following")
+            self.twist_pub.publish(follow_cmd)
+        else:
+            print("following")
             # else, we want to turn to the object and move closer
             # setup the Twist message
-                follow_cmd = Twist()
+            follow_cmd = Twist()
             # slowly move towards it
-                follow_cmd.linear.x = 0.5
             # turn to face the object
-                follow_cmd.angular.z = error
+            
+            follow_cmd.angular.z = error
             # publish the message
-                self.twist_pub.publish(follow_cmd)
+            follow_cmd.linear.x = 0.5
+
+            self.twist_pub.publish(follow_cmd)
     def run(self):
         # this runs the robot
         rospy.spin()
